@@ -4,27 +4,17 @@ import {
   Titel,
   NoContactMessage,
 } from './App.styled';
-import { ContactForm } from './ContatctForm/ContactForm';
+import { ContactForm } from '../ContatctForm/ContactForm';
 import { ContactList } from 'components/ContactList/ContactList';
-import { Filter } from './Filter/Filter';
-import { useEffect, useState } from 'react';
+import { Filter } from '../Filter/Filter';
+import { writeFilter } from '../../redux/filterSlice';
+import { addItem, delContact } from '../../redux/contactsSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setfilter] = useState('');
-
-  useEffect(() => {
-    const contactsJson = localStorage.getItem('contactsData');
-
-    if (JSON.parse(contactsJson).length === 0) {
-      return;
-    }
-    setContacts(JSON.parse(contactsJson));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contactsData', JSON.stringify(contacts));
-  }, [contacts]);
+  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
 
   const handleSubmit = ({ name, number }, { resetForm }) => {
     const contact = {
@@ -38,14 +28,14 @@ export const App = () => {
     );
 
     !contactСheck
-      ? setContacts(prevContact => [contact, ...prevContact])
+      ? dispatch(addItem(contact))
       : alert(`${name} is alreadi in contacts`);
 
     resetForm();
   };
 
   const deleteContact = id => {
-    setContacts(contacts.filter(contact => contact.id !== id));
+    dispatch(delContact(id));
   };
 
   const showFiltered = () => {
@@ -55,7 +45,7 @@ export const App = () => {
   };
 
   const changeFilter = e => {
-    setfilter(e.target.value);
+    dispatch(writeFilter(e.target.value));
   };
 
   const visibalFiltr = showFiltered();
