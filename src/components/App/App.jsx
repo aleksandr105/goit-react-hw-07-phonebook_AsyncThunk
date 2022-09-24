@@ -16,22 +16,42 @@ export const App = () => {
   const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
 
-  const handleSubmit = ({ name, number }, { resetForm }) => {
-    const contact = {
-      id: name,
-      name: name,
-      number: number.match(/\d{3}(?=\d{2,3})|\d+/g).join('-'),
-    };
+  // const handleSubmit = ({ name, number }, { resetForm }) => {
+  //   const contact = {
+  //     id: name,
+  //     name: name,
+  //     number: number.match(/\d{3}(?=\d{2,3})|\d+/g).join('-'),
+  //   };
 
+  //   const contactСheck = contacts.find(
+  //     el => el.name.toLowerCase() === name.toLowerCase()
+  //   );
+
+  //   !contactСheck
+  //     ? dispatch(addItem(contact))
+  //     : alert(`${name} is alreadi in contacts`);
+
+  //   resetForm();
+  // };
+
+  const handleSubmit = ({ name, number }, { resetForm }) => {
     const contactСheck = contacts.find(
       el => el.name.toLowerCase() === name.toLowerCase()
     );
 
-    !contactСheck
-      ? dispatch(addItem(contact))
-      : alert(`${name} is alreadi in contacts`);
+    if (!contactСheck) {
+      const contact = {
+        id: name,
+        name: name,
+        number: number.match(/\d{3}(?=\d{2,3})|\d+/g).join('-'),
+      };
 
-    resetForm();
+      dispatch(addItem(contact));
+
+      resetForm();
+    } else {
+      alert(`${name} is alreadi in contacts`);
+    }
   };
 
   const deleteContact = id => {
