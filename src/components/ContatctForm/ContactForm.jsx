@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Label, ButtonAdd } from './ContactForm.styled';
 import * as yup from 'yup';
+import { getIsLoading } from 'redux/selectors';
+import { useSelector } from 'react-redux';
 
 let initialValues = {
   name: '',
@@ -19,6 +21,8 @@ let schema = yup.object().shape({
 });
 
 export const ContactForm = ({ handleSubmit }) => {
+  const isLoading = useSelector(getIsLoading);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -38,7 +42,7 @@ export const ContactForm = ({ handleSubmit }) => {
             name="name"
             style={{
               display: 'block',
-              width: '70%',
+              width: '85%',
               height: '25px',
               marginBottom: '15px',
               marginTop: '5px',
@@ -55,7 +59,7 @@ export const ContactForm = ({ handleSubmit }) => {
             name="number"
             style={{
               display: 'block',
-              width: '70%',
+              width: '85%',
               height: '25px',
               marginBottom: '15px',
               marginTop: '5px',
@@ -64,7 +68,9 @@ export const ContactForm = ({ handleSubmit }) => {
           />
           <ErrorMessage name="number" component="p" />
         </Label>
-        <ButtonAdd type="submit">Add contact</ButtonAdd>
+        <ButtonAdd type="submit" disabled={isLoading}>
+          Add contact
+        </ButtonAdd>
       </Form>
     </Formik>
   );

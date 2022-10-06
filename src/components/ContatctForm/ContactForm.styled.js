@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const Label = styled.label`
   display: block;
-  color: red;
+  color: blue;
 `;
 
 export const ButtonAdd = styled.button`
