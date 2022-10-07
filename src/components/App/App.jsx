@@ -81,7 +81,7 @@ export const App = () => {
         <Titel>Phonebook</Titel>
         <ContactForm handleSubmit={handleSubmit} />
         <TitleLIstContacts>Contacts</TitleLIstContacts>
-        <div style={{ marginLeft: '40% ' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <ClipLoader
             color={'#d63636'}
             loading={isLoading && contacts.length !== 0}
